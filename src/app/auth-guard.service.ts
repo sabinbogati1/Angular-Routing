@@ -8,11 +8,12 @@ export class AuthGuard implements CanActivate, CanActivateChild{
 
     constructor(private authService: AuthService , private router: Router){}
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Observable<boolean> | Promise<boolean> {
-        throw new Error("Method not implemented.");
-    }
     canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Observable<boolean> | Promise<boolean> {
-        this.authService.isAuthenticated().then(
+        return this.canActivate(route, state);
+    }
+
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Observable<boolean> | Promise<boolean> {
+       return this.authService.isAuthenticated().then(
             (authenticated: boolean) => {
                 if (authenticated) {
                     return true;
